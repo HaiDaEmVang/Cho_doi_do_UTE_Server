@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class WebSecurityConfig {
-    String[] URL_PUBLIC = { "/api/**", "/api/email/**" };
+    String[] URL_PUBLIC = { "/api/**", "/api/email/**", "/api/comment/**" };
     SUserDetailsService userDetailsService;
     JwtAuthEntryPoint jwtAuthEntryPoint;
 

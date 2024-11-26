@@ -1,4 +1,4 @@
-DELIMITER $$
+
 
 CREATE TRIGGER insertBuy
 BEFORE INSERT ON buy
@@ -19,6 +19,7 @@ BEGIN
     END IF;
 END $$
 
+
 CREATE TRIGGER updateProduct
 after update ON product
 FOR EACH ROW
@@ -31,6 +32,24 @@ BEGIN
 END $$
 
 
+DELIMITER $$
+CREATE TRIGGER addComment
+AFTER INSERT ON comment
+FOR EACH ROW
+BEGIN
+    IF (SELECT COUNT(id) 
+        FROM buy 
+        WHERE buy.id_product = NEW.id_product 
+          AND buy.id_user_buy = NEW.id_user
+          AND buy.status = 'THANH_CONG') = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'User must purchase the product before commenting';
+    END IF;
+END $$
+
+drop trigger addComment
+
+
 CREATE EVENT update_mission_day
 ON SCHEDULE EVERY 1 DAY
 STARTS '2024-10-24 12:00:00'
@@ -38,7 +57,6 @@ DO
   UPDATE mission_details
   set date_checked = null 
   where (Datediff(CURRENT_DATE, DATE_CHECKED) > 1 AND mission_id in (select id from mission where name like '%Điểm danh ngày%')) or mission_id  = (select id from mission where name = 'Điểm danh ngày 8')
-  
-  
+ 
   drop event update_mission_day
 DELIMITER ;

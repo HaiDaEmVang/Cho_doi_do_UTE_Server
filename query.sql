@@ -92,6 +92,7 @@ select * from category;
 select * from product;
 select * from buy;
 select * from user;
+select * from comment
 
 
 select * from user;

@@ -54,6 +54,10 @@ public class Product {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Buy> buyList = new ArrayList<>();
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<Comment> comments = new ArrayList<>();
+
 
     public void setCount(Long count){
         if(this.count == null)

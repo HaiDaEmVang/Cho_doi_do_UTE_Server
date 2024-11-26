@@ -66,6 +66,10 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY , cascade = CascadeType.REMOVE)
     List<MissionDetails> MissionDetailList =new ArrayList<>();
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
+
     public void setProductLost() {
         if(this.productLost == null)
             this.productLost = 0L;
@@ -78,7 +82,7 @@ public class User {
         if(this.productSuccess == null)
             this.productSuccess = 0L;
         else
-        this.productLost =
+        this.productSuccess =
                 productList.stream().filter(item -> item.getPostProductStatus() == PostProductStatus.DA_DUYET).count();
     }
 

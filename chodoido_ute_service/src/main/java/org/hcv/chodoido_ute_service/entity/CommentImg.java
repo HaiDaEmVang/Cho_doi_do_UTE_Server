@@ -5,27 +5,21 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
-
-@Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ServiceDetails {
+@Entity
+public class CommentImg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    User user;
+    @JoinColumn(name = "id_comment")
+    Comment comment;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    ServicePackage servicePackage;
-
-    LocalDateTime expiration;
-
+    String urlImg;
 }
