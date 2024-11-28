@@ -23,7 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByUser(User user);
 
-    @Query("select u from Product u where  u.count > 0 and u.postProductStatus = :status and u.title like '%:name'")
+    @Query("select u from Product u where  u.count > 0 and u.postProductStatus = :status and u.title like :name")
     List<Product> findByTitle(@Param("name") String name, @Param("status") PostProductStatus status);
 
     @Query("select u from Product u where u.postProductStatus = :postProductStatus")

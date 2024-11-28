@@ -23,7 +23,7 @@ public interface IProductService {
     List<ProductDTO> findByCategory(Long idCategory);
     List<ProductDTO> findByUser(Long idUser);
     List<ProductDTO> search(String keyword);
-    List<ProductDTO> findProductAndPostStatus(PostProductStatus postStatus, Long idUser);
+    List<ProductDTO> findProductByUserAndPostStatus(PostProductStatus postStatus, Long idUser);
 
 
 }

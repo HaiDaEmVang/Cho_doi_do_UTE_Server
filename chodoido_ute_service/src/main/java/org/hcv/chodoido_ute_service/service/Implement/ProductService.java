@@ -162,11 +162,11 @@ public class ProductService implements IProductService {
 
     @Override
     public List<ProductDTO> search(String keyword) {
-        return productRepository.findByTitle(keyword, PostProductStatus.DA_DUYET).stream().map(productMapper::toProductDTO).toList();
+        return productRepository.findByTitle("%"+keyword+"%", PostProductStatus.DA_DUYET).stream().map(productMapper::toProductDTO).toList();
     }
 
     @Override
-    public List<ProductDTO> findProductAndPostStatus(PostProductStatus postStatus, Long idUser) {
+    public List<ProductDTO> findProductByUserAndPostStatus(PostProductStatus postStatus, Long idUser) {
         User user  = userRepository.findById(idUser)
                 .orElseThrow(()-> new NotFoundException("Not found User by id: " + idUser));
         return productRepository.findByUserAndPostProductStatus( postStatus, user)

@@ -85,10 +85,16 @@ public class ProductController {
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data(productService.findByCategory(idCategory)).build());
     }
 
-    @GetMapping("/findByUser")
+    @GetMapping("/findAllByUser")
     @PreAuthorize("hasRole('ADMIN') or @customSecurity.isOwner(#idUser, principal.username)")
     public ResponseEntity<?> findByUser(@RequestParam Long idUser){
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data(productService.findByUser(idUser)).build());
+    }
+
+    @GetMapping("/findPublicByUser")
+    @PreAuthorize("hasRole('ADMIN') or @customSecurity.isOwner(#idUser, principal.username)")
+    public ResponseEntity<?> findPublicByUser(@RequestParam Long idUser){
+        return ResponseEntity.ok(ResponseDTO.builder().status("success").data(productService.findProductByUserAndPostStatus(PostProductStatus.DA_DUYET, idUser)).build());
     }
 
     @GetMapping("")
@@ -99,9 +105,10 @@ public class ProductController {
     }
 
     @GetMapping("/findBySatatus")
+    @PreAuthorize("hasRole('ADMIN') or @customSecurity.isOwner(#idUser, principal.username)")
     public ResponseEntity<?> findMyProduct(@RequestParam Long idUser,
                                                        @RequestParam PostProductStatus postProductStatus){
-        return ResponseEntity.ok(ResponseDTO.builder().status("success").data(productService.findProductAndPostStatus(postProductStatus, idUser)).build());
+        return ResponseEntity.ok(ResponseDTO.builder().status("success").data(productService.findProductByUserAndPostStatus(postProductStatus, idUser)).build());
     }
 
 }
