@@ -12,6 +12,7 @@ import org.hcv.chodoido_ute_service.entity.Role;
 import org.hcv.chodoido_ute_service.entity.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class CommentDTO {
     Long id;
     ProductDTO product;
     UserDTO user;
-    LocalDate timePost;
+    LocalDateTime timePost;
     String content;
     int rate;
     List<CommentImg> images = new ArrayList<>();

@@ -6,5 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "Spring")
 public interface BuyMapper {
-    BuyDTO buyToBuyDTO(Buy buy) ;
+    BuyDTO buyToBuyDTO(Buy buy);
+
+    Buy updateBuy(BuyDTO buyDTO);
 }

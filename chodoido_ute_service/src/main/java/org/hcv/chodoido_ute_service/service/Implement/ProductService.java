@@ -106,7 +106,7 @@ public class ProductService implements IProductService {
 
         User user = userService.findByEmail(productRequest.getEmail());
         if(user.getCountPost() < 1)
-            throw new NoActionException("User not enough countPost. please get/update service");
+            throw new NoActionException("Số lượt đăng bài còn lại đã hết.\nĐổi điểm hoặc đăng kí dịch vụ để tiếp tục");
         user.setCountPost(-1L);
         userRepository.save(user);
 

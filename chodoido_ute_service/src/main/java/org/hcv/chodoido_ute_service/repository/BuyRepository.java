@@ -11,8 +11,14 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface BuyRepository extends JpaRepository<Buy,Long> {
-    @Query("select b.product from Buy b where b.user = :user")
-    List<Product> findByUser(@Param("user") User user);
+    @Query("select b from Buy b where b.user = :user")
+    List<Buy> findByUserBought(@Param("user") User user);
+
+    @Query("select b from Buy b where b.user = :user and b.product = :product")
+    Buy findByUserAndProduct(@Param("user") User user, @Param("product") Product product);
+
+    @Query("select b from Buy b where b.product.user = :user")
+    List<Buy> findByUser(@Param("user") User user);
 
     @Query("select count(b) from Buy b where b.user = :user")
     int countProductByUser(@Param("user") User user);

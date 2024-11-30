@@ -7,5 +7,5 @@ public enum BuyStatus {
     CHO_XAC_NHAN,
     DANG_GIAO_DICH,
     THANH_CONG,
-    THAT_BAI;
+    DA_HUY;
 }

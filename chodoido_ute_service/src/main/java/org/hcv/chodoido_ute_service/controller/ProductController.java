@@ -42,7 +42,6 @@ public class ProductController {
     public ResponseEntity<?> findById(@PathVariable Long id){
         if(id == null)
             throw new NoActionException("Id invalid");
-        log.error("looi" +id.toString());
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data(productService.findDTOById(id)).build());
     }
 
@@ -92,7 +91,6 @@ public class ProductController {
     }
 
     @GetMapping("/findPublicByUser")
-    @PreAuthorize("hasRole('ADMIN') or @customSecurity.isOwner(#idUser, principal.username)")
     public ResponseEntity<?> findPublicByUser(@RequestParam Long idUser){
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data(productService.findProductByUserAndPostStatus(PostProductStatus.DA_DUYET, idUser)).build());
     }

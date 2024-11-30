@@ -19,4 +19,7 @@ public interface FollowerRepository extends JpaRepository<Follower, Long> {
     int countFollowerByUser(@Param("idUser") Long idUser);
 
     Optional<Follower> findByUserFollowAndUserFollower(User userFollow, User userFollower);
+
+    @Query("select f from Follower f where f.userFollow.id = :idFollow and f.userFollower.id =:idFollower")
+    Follower isFollow(@Param("idFollow") Long idFollow, @Param("idFollower") Long idFollower);
 }

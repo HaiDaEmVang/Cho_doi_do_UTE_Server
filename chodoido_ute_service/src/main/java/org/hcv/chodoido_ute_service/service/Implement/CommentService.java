@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -58,7 +59,7 @@ public class CommentService implements ICommentService {
         comment = commentMapper.toComment(commentRequest);
         comment.setUser(user);
         comment.setProduct(product);
-        comment.setTimePost(LocalDate.now());
+        comment.setTimePost(LocalDateTime.now());
         for(MultipartFile file : image) {
             CommentImg commentImg = new CommentImg();
             commentImg.setUrlImg(awsS3Service.saveImageToS3(file, URL_IMAGE_COMMENT_DEFAUTL));

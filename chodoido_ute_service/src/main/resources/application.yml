@@ -7,7 +7,7 @@ spring:
     datasource:
       url: ${DB_CONNECTION_STRING:jdbc:mysql://localhost:3306/database_chodoido_ute?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
       username: root
-      password: root
+      password: ${DB_PASS:root}
       driver-class-name: com.mysql.cj.jdbc.Driver
       hikari:
         maximum-pool-size: 30
@@ -50,7 +50,7 @@ aws:
 
 jwt:
   token:
-    secret_Key: ${JWT_SECRET_KEY}
+    secret_Key: ${JWT_SECRET_KEY:""}
     expiration: 86400000
     expiration_refresh: 172800000
 

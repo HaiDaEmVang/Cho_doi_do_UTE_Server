@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.hcv.chodoido_ute_service.dto.request.UserRequest;
+import org.hcv.chodoido_ute_service.dto.response.FollowDTO;
 import org.hcv.chodoido_ute_service.dto.response.ResponseDTO;
+import org.hcv.chodoido_ute_service.entity.Follower;
 import org.hcv.chodoido_ute_service.exception.NoActionException;
 import org.hcv.chodoido_ute_service.service.Interface.IUserFollower;
 import org.hcv.chodoido_ute_service.service.Interface.IUserService;
@@ -25,15 +27,15 @@ public class FollowerController {
     IUserFollower userFollower;
 
     @PostMapping("/add_follower")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @customSecurity.isOwner(#idFollow, principal.username)")
+    @PreAuthorize("hasRole('ADMIN') or @customSecurity.isOwner(#idFollower, principal.username)")
     public ResponseEntity<?> addFollower(@RequestParam Long idFollow, @RequestParam Long idFollower){
         if(userFollower.addFollower(idFollow, idFollower) != null)
             return ResponseEntity.ok(ResponseDTO.builder().status("success").data("Them thanh cong").build());
-        else throw new NoActionException("add err");
+        else throw new NoActionException("Không thể theo dõi người dùng");
     }
 
     @DeleteMapping("/remove_follower")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @customSecurity.isOwner(#idFollow, principal.username)")
+    @PreAuthorize("hasRole('ADMIN') or @customSecurity.isOwner(#idFollower, principal.username)")
     public ResponseEntity<?> removeFollower(@RequestParam Long idFollow, @RequestParam Long idFollower){
         userFollower.removeFollower(idFollow, idFollower);
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data("delete success").build());
@@ -45,9 +47,18 @@ public class FollowerController {
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userFollower.findListUserFollowers(idFollow)).build());
     }
 
+    @GetMapping("/isFollow")
+    @PreAuthorize("hasRole('ADMIN')  or @customSecurity.isOwner(#idFollower, principal.username) ")
+    public ResponseEntity<?> isFollow(@RequestParam Long idFollow, @RequestParam Long idFollower){
+        FollowDTO follower = userFollower.isFollow(idFollow, idFollower);
+        if(follower != null)
+            return ResponseEntity.ok(ResponseDTO.builder().status("success").data("success").build());
+        else return ResponseEntity.ok(ResponseDTO.builder().status("error").build());
+    }
+
 
     @GetMapping("/count_followers")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @customSecurity.isOwner(#idFollow, principal.username)")
+    @PreAuthorize("hasRole('ADMIN') or @customSecurity.isOwner(#idFollow, principal.username)")
     public ResponseEntity<?> countFollowers(
             @RequestParam Long idFollow){
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userFollower.countFollowers(idFollow)).build());

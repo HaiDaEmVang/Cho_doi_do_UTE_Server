@@ -5,20 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuyDTO {
+public class FollowDTO {
     Long id;
-    UserDTO user;
-    ProductDTO product;
-    LocalDateTime timeBuy;
-    String status;
-    Long count;
-    Double price;
-    Boolean isComment;
+    UserDTO userFollow;
+    UserDTO userFollower;
 
 }

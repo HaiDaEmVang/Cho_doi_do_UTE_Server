@@ -19,6 +19,7 @@ import org.hcv.chodoido_ute_service.service.Interface.IBuyService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -44,10 +45,17 @@ public class BuyService implements IBuyService {
     }
 
     @Override
-    public List<ProductDTO> findByUser(Long idUser) {
+    public List<BuyDTO> findByUser(Long idUser) {
         User user = userService.findByID(idUser);
         return buyRepository.findByUser(user)
-                .stream().map(productMapper::toProductDTO).toList();
+                .stream().map(buyMapper::buyToBuyDTO).toList();
+    }
+
+    @Override
+    public List<BuyDTO> findByUserBought(Long idUser) {
+        User user = userService.findByID(idUser);
+        return buyRepository.findByUserBought(user)
+                .stream().map(buyMapper::buyToBuyDTO).toList();
     }
 
     @Override
@@ -79,14 +87,13 @@ public class BuyService implements IBuyService {
         p = productService.save(p);
 
         Buy newBuy = null;
-        try{
-            Buy buy = Buy.builder()
-                    .id(0L).price(p.getPrice()).count(buyRequest.getCount())
-                    .product(p).user(u).status(DEFAUT_STATUS).timeBuy(LocalDate.now()).build();
-            newBuy = buyRepository.save(buy);
-        }catch (Exception ex){
-            throw new NoActionException("Server Err not add BuyService");
+        Buy buy = Buy.builder()
+                .id(0L).price(p.getPrice()).count(buyRequest.getCount()).isComment(false)
+                .product(p).user(u).status(DEFAUT_STATUS).timeBuy(LocalDateTime.now()).build();
+        if(buyRepository.findByUserAndProduct(u, p) != null){
+            buy.setIsComment(buyRepository.findByUserAndProduct(u, p) != null);
         }
+        newBuy = buyRepository.save(buy);
         return buyMapper.buyToBuyDTO(newBuy);
     }
 
@@ -104,12 +111,23 @@ public class BuyService implements IBuyService {
             else
                 log.error("User can not set point/ mission default not init /");
         }
-        if(status == BuyStatus.THAT_BAI)
+        if(status == BuyStatus.DA_HUY)
             buy.getProduct().setCount(buy.getCount());
         buy.getUser().setProductSuccess();
         buy.getUser().setProductLost();
         Buy newBuy = buyRepository.save(buy);
         return buyMapper.buyToBuyDTO(newBuy);
+    }
+
+    @Override
+    public BuyDTO update(Long idBuy, Long count) {
+        Buy buy = findBuyBuyId(idBuy);
+        Long newCount =  buy.getCount() - count;
+        if(buy.getProduct().getCount() - newCount < 0)
+            throw new NoActionException("Sản phẩm không đủ");
+        buy.getProduct().setCount(newCount);
+        buy.setCount(count);
+        return buyMapper.buyToBuyDTO(buyRepository.save(buy));
     }
 
     @Override

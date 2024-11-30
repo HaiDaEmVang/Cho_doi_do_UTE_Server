@@ -17,7 +17,9 @@ public interface IBuyService {
     BuyDTO findBuyId(Long idBuy);
     Buy findBuyBuyId(Long idBuy);
 
-    List<ProductDTO> findByUser(Long idUser);
+    List<BuyDTO> findByUser(Long idUser);
+
+    List<BuyDTO> findByUserBought(Long idUser);
 
     int countProductByUser(Long idUser);
 
@@ -27,6 +29,7 @@ public interface IBuyService {
 
     BuyDTO updateStatus(Long idBuy, BuyStatus stauts);
 
+    BuyDTO update(Long idBuy, Long count);
     void deleteBuy(Long idBuy);
 
 }

@@ -92,9 +92,10 @@ select * from category;
 select * from product;
 select * from buy;
 select * from user;
-select * from comment
+select * from follower;
+select * from comment;
 
-
+SELECT EXISTS(SELECT 1 FROM comment WHERE id_user = 5  AND id_product = 8)
 select * from user;
 select * from service_package;
 select * from service_details;
@@ -104,4 +105,7 @@ INSERT INTO service_package (name, description, time, point, count_post) VALUES
 ('Dịch vụ 2', 'Khi người dùng đổi 100.000 điểm sẽ được 3 lượt đăng bài.', 2592000000, 50, 5),
 ('Dịch vụ 3', 'Khi người dùng đổi 100.000 điểm sẽ được 3 lượt đăng bài.', 2592000000, 70, 7)
 
-
+select * from product
+update product 
+set post_product_status = "DA_DUYET"
+where id =3 

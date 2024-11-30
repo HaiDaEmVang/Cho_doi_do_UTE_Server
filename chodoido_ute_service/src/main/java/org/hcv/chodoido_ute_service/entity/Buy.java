@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -27,11 +27,12 @@ public class Buy {
     @ManyToOne(fetch = FetchType.LAZY)@JoinColumn(name = "id_User_Buy")
     User user;
 
-    LocalDate timeBuy;
+    LocalDateTime timeBuy;
     Long count = 0L;
     Double price;
 
-
     @Enumerated(EnumType.STRING)
     BuyStatus status;
+
+    Boolean isComment = false;
 }

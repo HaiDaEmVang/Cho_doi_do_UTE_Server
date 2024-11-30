@@ -1,23 +1,15 @@
 package org.hcv.chodoido_ute_service.service.emailService;
 
-import ch.qos.logback.core.util.TimeUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.hcv.chodoido_ute_service.exception.NoActionException;
-import org.hcv.chodoido_ute_service.exception.NotFoundException;
 import org.hcv.chodoido_ute_service.service.RedisService.BaseRedisService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.*;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -35,15 +27,13 @@ public class VerifyEmailService {
     public void sendCodeVerifyEmail(String toEmail){
         String code = getCode();
         baseRedisService.save(toEmail.trim(), code, timeDelete, TimeUnit.MILLISECONDS);
-//        sendSimpleEmail(toEmail, "Xác nhận email", getTextMailSend(email, code));
+        sendSimpleEmail(toEmail, "Xác nhận email", getTextMailSend(email, code));
     }
 
     public boolean verifyCode(String email, String code){
         if(baseRedisService.isExists(email.trim())){
             String value = (String) baseRedisService.get(email.trim());
-            if(value != null && value.equals(code)){
-                return true;
-            }
+            return value != null && value.equals(code);
         }
         return false;
     }
