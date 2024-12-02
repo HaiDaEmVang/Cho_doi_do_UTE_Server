@@ -27,7 +27,7 @@ public class VerifyEmailService {
     public void sendCodeVerifyEmail(String toEmail){
         String code = getCode();
         baseRedisService.save(toEmail.trim(), code, timeDelete, TimeUnit.MILLISECONDS);
-//        sendSimpleEmail(toEmail, "Xác nhận email", getTextMailSend(email, code));
+        sendSimpleEmail(toEmail, "Xác nhận email", getTextMailSend(email, code));
     }
 
     public boolean verifyCode(String email, String code){
