@@ -25,7 +25,7 @@ public class SUserDetails implements UserDetails {
 
     public static UserDetails userDetailsBuilder(User user) {
         return SUserDetails.builder().id(user.getId()).email(user.getEmail()).password(user.getPassword())
-                .grantedAuthorities(Collections.singleton(new SimpleGrantedAuthority(user.getRole().name()))).build();
+                .grantedAuthorities(Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))).build();
     }
     public List<String> getRoles(){
         return this.grantedAuthorities.stream().map(GrantedAuthority::getAuthority).toList();

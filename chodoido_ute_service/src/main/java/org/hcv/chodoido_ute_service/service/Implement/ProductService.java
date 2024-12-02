@@ -43,7 +43,7 @@ public class ProductService implements IProductService {
 
     @Override
     public List<ProductDTO> getProductForAdmin() {
-        return productRepository.findProductView(PostProductStatus.CHO_DUYET).stream().map(productMapper::toProductDTO).toList();
+        return productRepository.findAll().stream().map(productMapper::toProductDTO).toList();
     }
 
     @Override

@@ -25,7 +25,7 @@ public class UserController {
     private final CustomSecurity customSecurity;
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllUsers(){
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userService.findAllUsers()).build());
     }
