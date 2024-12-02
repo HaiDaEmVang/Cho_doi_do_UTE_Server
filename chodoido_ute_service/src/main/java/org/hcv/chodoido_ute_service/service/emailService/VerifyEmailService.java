@@ -27,7 +27,7 @@ public class VerifyEmailService {
     public void sendCodeVerifyEmail(String toEmail){
         String code = getCode();
         baseRedisService.save(toEmail.trim(), code, timeDelete, TimeUnit.MILLISECONDS);
-        sendSimpleEmail(toEmail, "Xác nhận email", getTextMailSend(email, code));
+        sendSimpleEmail(toEmail, "Xác nhận email", getTextMailSend(toEmail, code));
     }
 
     public boolean verifyCode(String email, String code){
@@ -113,7 +113,7 @@ public class VerifyEmailService {
                 "                "+ code +"\n" +
                 "            </p>\n" +
                 "            <p>Nếu nút không hoạt động, vui lòng copy code và dán vào ứng dụng</p>\n" +
-                "            <p><a href=\"{{verificationLink}}\">{{verificationLink}}</a></p>\n" +
+
                 "            <p>Nếu bạn không thể tạo tài khoản vui lòng trả lời lại email này.</p>\n" +
                 "            <p>Thân gửi,<br>The Team HCV</p>\n" +
                 "        </div>\n" +
