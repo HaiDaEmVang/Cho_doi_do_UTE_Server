@@ -27,7 +27,7 @@ import java.util.List;
 @EnableMethodSecurity
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class WebSecurityConfig {
-    String[] URL_PUBLIC = { "/api/**", "/api/email/**", "/api/comment/**" };
+    String[] URL_PUBLIC = { "/api/**", "/api/email/**", "/api/comment/**" , "/api/healthy"};
     SUserDetailsService userDetailsService;
     JwtAuthEntryPoint jwtAuthEntryPoint;
 
