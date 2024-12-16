@@ -1,6 +1,7 @@
 package org.hcv.chodoido_ute_service.security;
 
 import org.hcv.chodoido_ute_service.entity.*;
+import org.hcv.chodoido_ute_service.repository.UserRepository;
 import org.hcv.chodoido_ute_service.service.Implement.BuyService;
 import org.hcv.chodoido_ute_service.service.Implement.CommentService;
 import org.hcv.chodoido_ute_service.service.Implement.ProductService;
@@ -13,12 +14,14 @@ public class CustomSecurity {
     private final ProductService productService;
     private final CommentService commentService;
     private final BuyService buyService;
+    private final UserRepository userRepository;
 
-    public CustomSecurity(UserService userService, ProductService productService, CommentService commentService, BuyService buyService) {
+    public CustomSecurity(UserService userService, ProductService productService, CommentService commentService, BuyService buyService, UserRepository userRepository) {
         this.userService = userService;
         this.productService = productService;
         this.commentService = commentService;
         this.buyService = buyService;
+        this.userRepository = userRepository;
     }
 
     public boolean isOwner(Long userId, String username) {

@@ -58,6 +58,14 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public UserDTO findUser(Long id) {
+        return userMapper.userToUserDTO(
+                userRepository.findById(id)
+                        .orElseThrow(() -> new NotFoundException("User not found with id: " + id))
+        );
+    }
+
+    @Override
     public UserDTO update(MultipartFile multipartFile, UserRequest userRequest) {
 
         User user = userRepository.findById(userRequest.getId())

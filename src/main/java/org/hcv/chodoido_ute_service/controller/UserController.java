@@ -41,6 +41,12 @@ public class UserController {
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userService.findUser(email)).build());
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @customSecurity.isOwner(#id, principal.username)")
+    public ResponseEntity<?> getUser(@PathVariable Long id){
+        return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userService.findUser(id)).build());
+    }
+
     @PutMapping("/update")
     @PreAuthorize("hasRole('ADMIN') or #user.email == principal.username")
     public ResponseEntity<?> updateUser(@RequestPart("imgUrl") MultipartFile imgUrl, @RequestPart("user") UserRequest user){

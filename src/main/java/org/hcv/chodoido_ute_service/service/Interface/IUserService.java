@@ -11,6 +11,7 @@ public interface IUserService {
     List<UserDTO> findAllUsers();
     List<User> findAll();
     UserDTO findUser(String email);
+    UserDTO findUser(Long id);
     UserDTO update(MultipartFile multipartFile, UserRequest userRequest);
     UserDTO addUser( UserRequest userRequest);
     User addUser(User user);
