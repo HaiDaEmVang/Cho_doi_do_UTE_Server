@@ -91,7 +91,7 @@ public class BuyService implements IBuyService {
                 .id(0L).price(p.getPrice()).count(buyRequest.getCount()).isComment(false)
                 .product(p).user(u).status(DEFAUT_STATUS).timeBuy(LocalDateTime.now()).build();
         if(buyRepository.findByUserAndProduct(u, p) != null){
-            buy.setIsComment(buyRepository.findByUserAndProduct(u, p) != null);
+            buy.setIsComment(!buyRepository.findByUserAndProduct(u, p).isEmpty());
         }
         newBuy = buyRepository.save(buy);
         return buyMapper.buyToBuyDTO(newBuy);
