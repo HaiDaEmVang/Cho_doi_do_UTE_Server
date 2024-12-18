@@ -30,21 +30,19 @@ public class UserController {
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userService.findAllUsers()).build());
     }
 
-    @GetMapping("/public/{email}")
-    public ResponseEntity<?> getUserPublic(@PathVariable String email){
-        return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userService.findUser(email)).build());
+    @GetMapping("/public/{emailOrId}")
+    public ResponseEntity<?> getUserPublic(@PathVariable String emailOrId){
+        if(emailOrId.contains("@"))
+            return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userService.findUser(emailOrId)).build());
+        else
+            return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userService.findUser(Long.parseLong(emailOrId))).build());
+
     }
 
     @GetMapping("/me/{email}")
     @PreAuthorize("hasRole('ADMIN') or #email == principal.username")
     public ResponseEntity<?> getUser(@PathVariable String email){
         return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userService.findUser(email)).build());
-    }
-
-    @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or @customSecurity.isOwner(#id, principal.username)")
-    public ResponseEntity<?> getUser(@PathVariable Long id){
-        return ResponseEntity.ok(ResponseDTO.builder().status("success").data(userService.findUser(id)).build());
     }
 
     @PutMapping("/update")
